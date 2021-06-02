@@ -1,7 +1,7 @@
 """YOLOv3-specific modules
 
 Usage:
-    $ python path/to/models/yolo.py --cfg yolov3.yaml
+    $ python path/to/models/yolo.py --cfg yolov3-tiny.yaml
 """
 
 import argparse
@@ -44,7 +44,7 @@ class Detect(nn.Module):
         self.inplace = inplace  # use in-place ops (e.g. slice assignment)
 
     def forward(self, x):
-        # x = x.copy()  # for profiling
+        x = x.copy()  # for profiling
         z = []  # inference output
         for i in range(self.nl):
             x[i] = self.m[i](x[i])  # conv
@@ -297,8 +297,8 @@ if __name__ == '__main__':
     model.train()
 
     # Profile
-    # img = torch.rand(8 if torch.cuda.is_available() else 1, 3, 320, 320).to(device)
-    # y = model(img, profile=True)
+    img = torch.rand(8 if torch.cuda.is_available() else 1, 3, 320, 320).to(device)
+    y = model(img, profile=True)
 
     # Tensorboard (not working https://github.com/ultralytics/yolov5/issues/2898)
     # from torch.utils.tensorboard import SummaryWriter
